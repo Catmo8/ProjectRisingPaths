@@ -19,13 +19,15 @@ public class NetworkXrPlayer : MonoBehaviour
     private Transform headRig;
     private Transform leftHandRig;
     private Transform rightHandRig;
+    private Transform bodyRig;
 
     // Start is called before the first frame update
     void Start()
     {
         photonView = GetComponent<PhotonView>();
         XRRig rig = FindObjectOfType<XRRig>();
-        headRig = rig.transform.Find("Camera Offset/Main Camera");
+        bodyRig = rig.transform;
+        headRig = rig.transform.Find("Camera Offset/XR Player Camera");
         leftHandRig = rig.transform.Find("Camera Offset/LeftHand Controller");
         rightHandRig = rig.transform.Find("Camera Offset/RightHand Controller");
 
@@ -44,19 +46,20 @@ public class NetworkXrPlayer : MonoBehaviour
         if(photonView.IsMine)
         {
 
-            MapPosition(head, headRig);
-            MapPosition(leftHand, leftHandRig);
-            MapPosition(rightHand, rightHandRig);
+            MapPosition(head, headRig, bodyRig);
+            MapPosition(leftHand, leftHandRig, bodyRig);
+            MapPosition(rightHand, rightHandRig, bodyRig);
 
             UpdateHandAnimation(InputDevices.GetDeviceAtXRNode(XRNode.LeftHand), leftHandAnimator);
             UpdateHandAnimation(InputDevices.GetDeviceAtXRNode(XRNode.RightHand), rightHandAnimator);
         }
     }
 
-    void MapPosition(Transform target, Transform rigTransform)
+    void MapPosition(Transform target, Transform rigTransform, Transform rigScale)
     {
         target.position = rigTransform.position;
         target.rotation = rigTransform.rotation;
+        target.localScale = rigScale.localScale;
     }
     void UpdateHandAnimation(InputDevice targetDevice, Animator handAnimator)
     {
