@@ -19,9 +19,14 @@ public class PlayerController : MonoBehaviour
     private float gravityValue = -9.81f;
     [SerializeField, Tooltip("Rotation speed multiplier")]
     private float rotationSpeed = 4f;
+    private Vector3 moveVector;
+    private Vector3 lastMove;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
+
+    private bool doubleJump = false;
+    
     private bool groundedPlayer;
     private Transform cameraMainTransform;
 
@@ -48,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        moveVector = Vector3.zero;
         groundedPlayer = controller.isGrounded;
         // Set velocity to 0 is the player is grounded to prevent vertical movement
         if (groundedPlayer && playerVelocity.y < 0)
@@ -65,8 +71,18 @@ public class PlayerController : MonoBehaviour
         // Changes the height position of the player
         if (jumpControl.action.triggered && groundedPlayer)
         {
+            doubleJump = false;
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
+        else {
+            if (jumpControl.action.triggered  && doubleJump == false){
+                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+                doubleJump = true;
+                moveVector = lastMove;
+            }
+        }
+
+        
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
@@ -76,6 +92,17 @@ public class PlayerController : MonoBehaviour
             float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cameraMainTransform.eulerAngles.y;
             Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+        }
+
+    }
+    private void OnControllerColliderHit (ControllerColliderHit hit){
+        if (!controller.isGrounded && hit.normal.y < 0.1f)
+        {
+            if (jumpControl.action.triggered)
+            Debug.DrawRay(hit.point, hit.normal, Color.red, 1.25f);
+            //Vector2 movement = movementControl.action.ReadValue<Vector2>();
+            playerVelocity.x += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            //moveVector = hit.normal * playerSpeed;
         }
     }
 }
