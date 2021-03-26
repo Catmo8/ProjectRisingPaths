@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("Input action for button/float jump")]
     private InputActionReference jumpControl = null;
     [SerializeField, Tooltip("Speed multiplier")]
+    private InputActionReference runControl = null;
+    [SerializeField, Tooltip("Input action for button run")]
     private float playerSpeed = 2.0f;
     [SerializeField, Tooltip("How high can the player jump")]
     private float jumpHeight = 1.0f;
@@ -21,25 +23,31 @@ public class PlayerController : MonoBehaviour
     private float rotationSpeed = 4f;
     private Vector3 moveVector;
     private Vector3 lastMove;
+    private float sprintSpeed = 5.0f;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
 
     private bool doubleJump = false;
-    
+    private bool isRunning = false;
     private bool groundedPlayer;
     private Transform cameraMainTransform;
+    InputAction input = new InputAction();
 
     #region setup
+    
+    
 
     private void OnEnable() {
         if (movementControl != null) movementControl.action.Enable();
         if (jumpControl != null) jumpControl.action.Enable();
+        if (runControl != null) runControl.action.Enable();
     }
 
     private void OnDisable() {
         if (movementControl != null) movementControl.action.Disable();
         if (jumpControl != null) jumpControl.action.Disable();
+        if (runControl != null) runControl.action.Disable();
     }
 
     private void Start()
@@ -50,9 +58,9 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion setup
-
     void Update()
     {
+        
         moveVector = Vector3.zero;
         groundedPlayer = controller.isGrounded;
         // Set velocity to 0 is the player is grounded to prevent vertical movement
@@ -68,6 +76,14 @@ public class PlayerController : MonoBehaviour
         move.y = 0f;
         controller.Move(move * Time.deltaTime * playerSpeed);
 
+        //Changes the speed of the character to run
+        if (runControl.action.triggered && groundedPlayer)
+        {
+            //bool isRunHeld = (input.Player.Run.activeControl != null) ? true : false;
+            playerSpeed = sprintSpeed;
+            controller.Move(move * Time.deltaTime * playerSpeed);
+        }
+
         // Changes the height position of the player
         if (jumpControl.action.triggered && groundedPlayer)
         {
@@ -82,10 +98,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        
-
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+        
 
         // Rotate the player in accordance with their movement
         if (movement != Vector2.zero) {
@@ -95,6 +110,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+    
     private void OnControllerColliderHit (ControllerColliderHit hit){
         if (!controller.isGrounded && hit.normal.y < 0.1f)
         {
