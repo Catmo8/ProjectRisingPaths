@@ -6,15 +6,22 @@ public class SnapBlock : MonoBehaviour
 {
     public float degreesPerInterval = 15.0f;
 
+    public bool rotateByX = true;
+    public bool rotateByY = true;
+    public bool rotateByZ = true;
+
     private float rotX;
     private float rotY;
     private float rotZ;
 
     public void SnappableBlock()
     {
-        rotX = Mathf.Round(transform.localRotation.eulerAngles.x / degreesPerInterval) * degreesPerInterval;
-        rotY = Mathf.Round(transform.localRotation.eulerAngles.y / degreesPerInterval) * degreesPerInterval;
-        rotZ = Mathf.Round(transform.localRotation.eulerAngles.z / degreesPerInterval) * degreesPerInterval;
+        if (rotateByX)
+            rotX = Mathf.Round(transform.localRotation.eulerAngles.x / degreesPerInterval) * degreesPerInterval;
+        if (rotateByY)
+            rotY = Mathf.Round(transform.localRotation.eulerAngles.y / degreesPerInterval) * degreesPerInterval;
+        if (rotateByZ)
+            rotZ = Mathf.Round(transform.localRotation.eulerAngles.z / degreesPerInterval) * degreesPerInterval;
 
         Debug.Log(transform.localRotation.eulerAngles);
         Debug.Log("x: " + rotX + ", y: " + rotY + ", z: " + rotZ);
