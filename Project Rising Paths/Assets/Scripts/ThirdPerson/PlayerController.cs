@@ -116,8 +116,8 @@ public class PlayerController : MonoBehaviour
         {
             if (jumpControl.action.triggered)
             Debug.DrawRay(hit.point, hit.normal, Color.red, 1.25f);
-            //Vector2 movement = movementControl.action.ReadValue<Vector2>();
-            playerVelocity.x += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            Vector2 movement = movementControl.action.ReadValue<Vector2>();
+            //playerVelocity.x += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
             //moveVector = hit.normal * playerSpeed;
         }
     }
