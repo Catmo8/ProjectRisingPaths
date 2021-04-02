@@ -23,7 +23,7 @@ public class RealPlayerController : MonoBehaviour
     private float jumpHeight = 2.0f;
 
     [SerializeField, Tooltip("Rotation speed multiplier")]
-    private float rotationSpeed = 4f;
+    private float wallJumpForce = 4f;
 
     [SerializeField, Tooltip("Camera")]
     private Transform cameraMainTransform;
@@ -33,10 +33,12 @@ public class RealPlayerController : MonoBehaviour
 
     [SerializeField, Tooltip("additionalGravity")]
     private Vector3 additionalGravity;
+
     [SerializeField, Tooltip("isGrounded")]
     private bool isGrounded;
-    
+
     private Vector3 moveVector;
+
     private Vector2 movement;
     private Vector3 lastMove;
     private float sprintSpeed = 5.0f;
@@ -45,6 +47,7 @@ public class RealPlayerController : MonoBehaviour
     private Vector3 playerVelocity;
     private Vector3 groundPosition;
     private Vector3 lastContact;
+    private Vector3 fortyFive;
    
     private bool doubleJump = false;
     private bool isRunning = false;
@@ -80,6 +83,7 @@ public class RealPlayerController : MonoBehaviour
     {
         DistanceToTheGround = GetComponent<Collider>().bounds.extents.y;
         isGrounded = Physics.Raycast(transform.position, Vector3.down, DistanceToTheGround + 0.1f);
+        //groundedPlayer = rigidbody.isGrounded;
         movement = movementControl.action.ReadValue<Vector2>();
 
         moveVector = Vector3.zero;
@@ -115,22 +119,20 @@ public class RealPlayerController : MonoBehaviour
     }
     
     private void OnCollisionStay (Collision collision){
-        foreach (ContactPoint contact in collision.contacts){
-            if (!isGrounded && contact.normal.y < 0.1f)
+         ContactPoint contact = collision.GetContact(0);
+        if (!isGrounded && contact.normal.y < 0.1f)
+        {
+            if (jumpControl.action.triggered)
             {
-                /*
-                if (jumpControl.action.triggered){
-                Debug.DrawRay(contact.point, contact.normal, Color.yellow, 12f);
-                lastContact = -Vector3.Reflect(groundPosition, contact.point);
-                lastContact = Vector3.Cross(lastContact, Vector3.forward);
-                rigidbody.AddForce(lastContact * Mathf.Sqrt(1f * -3f * Physics.gravity.y), ForceMode.VelocityChange);
-                Debug.DrawRay(groundPosition, contact.point, Color.blue, 12f);
-                Debug.DrawRay(contact.point, lastContact, Color.red, 12f);
-                }
-                */
-                if (jumpControl.action.triggered){
-                    
-                }
+                Debug.DrawRay(contact.point, contact.normal, Color.yellow, 40f);
+                lastContact = Vector3.up + contact.normal;
+                lastContact.x *= wallJumpForce;
+                lastContact.y *= Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+                lastContact.z *= wallJumpForce;
+                rigidbody.AddForce(lastContact, ForceMode.VelocityChange);
+                transform.forward = contact.normal;
+                Debug.DrawRay(contact.point, Vector3.up.normalized, Color.red, 40f);
+                Debug.DrawRay(contact.point, lastContact.normalized, Color.blue, 40f);
             }
         }
     }
