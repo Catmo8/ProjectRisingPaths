@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5176145331289461247}
   - component: {fileID: 2837081778650038310}
   - component: {fileID: 2979868576486060352}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Network Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 8423658032327376208}
   - component: {fileID: 600526827086135619}
   - component: {fileID: 7848051059342809003}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 3468448025145627862}
   - component: {fileID: 1654579504942887999}
   - component: {fileID: 4610166539485440583}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8631448326403771263}
   - component: {fileID: 5364137700723327809}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
