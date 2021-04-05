@@ -1,20 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class JumpController : MonoBehaviour
 {
     // Prequisites: create an empty GameObject, attach to it a Rigidbody w/ UseGravity unchecked
     // To empty GO also add BoxCollider and this script. Makes this the parent of the Player
     // Size BoxCollider to fit around Player model.
- 
+
+    [SerializeField, Tooltip("Input action Vector2 movement")]
+    private InputActionReference movementControl = null;
+
+    [SerializeField, Tooltip("Input action for button/float jump")]
+    private InputActionReference jumpControl = null;
+
+    [SerializeField, Tooltip("Speed multiplier")]
+    private InputActionReference runControl = null;
+
+    [SerializeField]
     private float moveSpeed = 6; // move speed
+    [SerializeField]
     private float turnSpeed = 90; // turning speed (degrees/second)
+    [SerializeField]
     private float lerpSpeed = 10; // smoothing speed
+    [SerializeField]
     private float gravity = 10; // gravity acceleration
     private bool isGrounded;
     private float deltaGround = 0.2f; // character is grounded up to this distance
+    [SerializeField]
     private float jumpSpeed = 10; // vertical jump initial speed
+    [SerializeField]
     private float jumpRange = 100; // range to detect target wall
     private Vector3 surfaceNormal; // current surface normal
     private Vector3 myNormal; // character normal
@@ -23,9 +39,23 @@ public class JumpController : MonoBehaviour
     private float vertSpeed = 0; // vertical jump current speed
  
     private Transform myTransform;
-    public BoxCollider boxCollider; // drag BoxCollider ref in editor
+    public CapsuleCollider capsuleCollider; // drag BoxCollider ref in editor
     private Rigidbody rigidbody;
- 
+
+    private void OnEnable()
+    {
+        if (movementControl != null) movementControl.action.Enable();
+        if (jumpControl != null) jumpControl.action.Enable();
+        if (runControl != null) runControl.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        if (movementControl != null) movementControl.action.Disable();
+        if (jumpControl != null) jumpControl.action.Disable();
+        if (runControl != null) runControl.action.Disable();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +64,7 @@ public class JumpController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.freezeRotation = true; // disable physics rotation
                                          // distance from transform.position to ground
-        distGround = boxCollider.size.y - boxCollider.center.y;
+        distGround = capsuleCollider.height;
     }
  
     private void FixedUpdate()
@@ -53,7 +83,8 @@ public class JumpController : MonoBehaviour
         Ray ray;
         RaycastHit hit;
  
-        if (Input.GetButtonDown("Jump"))
+        //if (Input.GetButtonDown("Jump"))
+        if (jumpControl.action.triggered)
         { // jump pressed:
             ray = new Ray(myTransform.position, /*myTransform.forward*/ Camera.main.transform.forward);   //Look at target wall
             if (Physics.Raycast(ray, out hit, jumpRange) && hit.transform.CompareTag("Walkable"))                //Is wall walkable?
@@ -67,7 +98,8 @@ public class JumpController : MonoBehaviour
         }
  
         // movement code - turn left/right with Horizontal axis:
-        myTransform.Rotate(0, Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime, 0);
+        //myTransform.Rotate(0, Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime, 0);
+        myTransform.Rotate(0, movementControl.action.ReadValue<Vector2>().x * turnSpeed * Time.deltaTime, 0);
         // update surface normal and isGrounded:
         ray = new Ray(myTransform.position, -myNormal); // cast ray downwards
         if (Physics.Raycast(ray, out hit))
@@ -88,7 +120,8 @@ public class JumpController : MonoBehaviour
         Quaternion targetRot = Quaternion.LookRotation(myForward, myNormal);
         myTransform.rotation = Quaternion.Lerp(myTransform.rotation, targetRot, lerpSpeed * Time.deltaTime);
         // move the character forth/back with Vertical axis:
-        myTransform.Translate(0, 0, Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime);
+        //myTransform.Translate(0, 0, Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime);
+        myTransform.Translate(0, 0, movementControl.action.ReadValue<Vector2>().y * moveSpeed * Time.deltaTime);
     }
  
     private void JumpToWall(Vector3 point, Vector3 normal)

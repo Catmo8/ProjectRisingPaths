@@ -1096,7 +1096,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4126419587313872393}
-  m_LocalRotation: {x: 0.031732097, y: 0.118760675, z: -0.0037973528, w: 0.9924085}
+  m_LocalRotation: {x: 0.031732094, y: 0.11876072, z: -0.003797354, w: 0.99240845}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1403,7 +1403,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4126419588368735322}
-  m_LocalRotation: {x: 0.07633727, y: 0.11846969, z: -0.009135218, w: 0.9899768}
+  m_LocalRotation: {x: 0.07633727, y: 0.11846971, z: -0.009135219, w: 0.9899768}
   m_LocalPosition: {x: -0.6726599, y: 0.87532425, z: -2.7702496}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1723,10 +1723,10 @@ MonoBehaviour:
   jumpControl: {fileID: 2541884907289183377, guid: 5aa99e11f301f134aa8a68ae2f750736, type: 3}
   runControl: {fileID: -6631535178934932749, guid: 5aa99e11f301f134aa8a68ae2f750736, type: 3}
   playerSpeed: 6
+  sprintSpeed: 5
   jumpHeight: 100
   wallJumpForce: 310
   cameraMainTransform: {fileID: 4126419588368735321}
-  fallMultiplier: 2
   additionalGravity: {x: 0, y: -40, z: 0}
   isGrounded: 0
 --- !u!4 &4126419588981098698
@@ -1757,6 +1757,7 @@ GameObject:
   - component: {fileID: 4126419588990588277}
   - component: {fileID: 4126419588990588283}
   - component: {fileID: 4126419588990588282}
+  - component: {fileID: 4126419588990588278}
   m_Layer: 7
   m_Name: CM FreeLook1
   m_TagString: Untagged
@@ -1781,6 +1782,36 @@ Transform:
   m_Father: {fileID: 4126419588981098698}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4126419588990588278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126419588990588276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: 
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 0
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!114 &4126419588990588282
 MonoBehaviour:
   m_ObjectHideFlags: 0

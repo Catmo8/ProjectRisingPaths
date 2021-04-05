@@ -13,11 +13,14 @@ public class RealPlayerController : MonoBehaviour
     [SerializeField, Tooltip("Input action for button/float jump")]
     private InputActionReference jumpControl = null;
 
-    [SerializeField, Tooltip("Speed multiplier")]
+    [SerializeField, Tooltip("Input action for button run")]
     private InputActionReference runControl = null;
 
-    [SerializeField, Tooltip("Input action for button run")]
-    private float playerSpeed = 2.0f;
+    [SerializeField, Tooltip("Speed multiplier")]
+    private float playerSpeed = 5.0f;
+
+    [SerializeField, Tooltip("Run speed multiplier")]
+    private float sprintSpeed = 10.0f;
 
     [SerializeField, Tooltip("How high can the player jump")]
     private float jumpHeight = 2.0f;
@@ -28,39 +31,23 @@ public class RealPlayerController : MonoBehaviour
     [SerializeField, Tooltip("Camera")]
     private Transform cameraMainTransform;
 
-    [SerializeField, Tooltip("fallMultiplier")]
-    private float fallMultiplier = 1.5f;
-
     [SerializeField, Tooltip("additionalGravity")]
     private Vector3 additionalGravity;
 
-    [SerializeField, Tooltip("isGrounded")]
+    //[SerializeField, Tooltip("isGrounded")]
     private bool isGrounded;
+    private float DistanceToTheGround;
 
     private Vector3 moveVector;
-
     private Vector2 movement;
-    private Vector3 lastMove;
-    private float sprintSpeed = 5.0f;
 
-    private Rigidbody rigidbody;
-    private Vector3 playerVelocity;
-    private Vector3 groundPosition;
+    private Rigidbody rb;
     private Vector3 lastContact;
-    private Vector3 fortyFive;
    
     private bool doubleJump = false;
     private bool isRunning = false;
-    
-    private float DistanceToTheGround;
-
-    
-    InputAction input = new InputAction();
 
     #region setup
-    
-    
-
     private void OnEnable() {
         if (movementControl != null) movementControl.action.Enable();
         if (jumpControl != null) jumpControl.action.Enable();
@@ -75,47 +62,44 @@ public class RealPlayerController : MonoBehaviour
 
     private void Start()
     {
-        rigidbody = gameObject.GetComponent<Rigidbody>();
+        rb = gameObject.GetComponent<Rigidbody>();
     }
-
     #endregion setup
     void Update()
     {
         DistanceToTheGround = GetComponent<Collider>().bounds.extents.y;
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, DistanceToTheGround + 0.1f);
-        //groundedPlayer = rigidbody.isGrounded;
-        movement = movementControl.action.ReadValue<Vector2>();
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, DistanceToTheGround + 0.2f);
 
-        moveVector = Vector3.zero;
-        moveVector.x = movement.x;
-        moveVector.z = movement.y;
+        movement = movementControl.action.ReadValue<Vector2>();
+        moveVector = new Vector3(movement.x, 0f, movement.y);
         moveVector = cameraMainTransform.forward * moveVector.z + cameraMainTransform.right * moveVector.x;
         moveVector.y = 0f;
         if (moveVector != Vector3.zero){
             transform.forward = moveVector;
         }
 
+
         if (jumpControl.action.triggered && isGrounded)
         {
-            doubleJump = false;
-            groundPosition = transform.position;
-            rigidbody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+            rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.Impulse);
         }
-        /*  DoubleJump
-        else if (jumpControl.action.triggered  && doubleJump == false){
-                rigidbody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-                doubleJump = true;
-            }
-        */
 
     }
 
     void FixedUpdate(){
-        //rigidbody.MovePosition(rigidbody.position + moveVector * playerSpeed * Time.fixedDeltaTime);
-        rigidbody.AddForce(additionalGravity, ForceMode.Acceleration);
+        /*
+        if (jumpControl.action.triggered && isGrounded)
+        {
+            rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Acceleration);
+        }
+        */
+        if (!isGrounded)
+        {
+            rb.AddForce(additionalGravity, ForceMode.Acceleration);
+        }
         Vector3 velocity = moveVector * playerSpeed;
-        velocity.y = rigidbody.velocity.y;
-        rigidbody.velocity = velocity;
+        velocity.y = rb.velocity.y;
+        rb.velocity = velocity;
     }
     
     private void OnCollisionStay (Collision collision){
@@ -129,7 +113,7 @@ public class RealPlayerController : MonoBehaviour
                 lastContact.x *= wallJumpForce;
                 lastContact.y *= Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
                 lastContact.z *= wallJumpForce;
-                rigidbody.AddForce(lastContact, ForceMode.VelocityChange);
+                rb.AddForce(lastContact, ForceMode.VelocityChange);
                 transform.forward = contact.normal;
                 Debug.DrawRay(contact.point, Vector3.up.normalized, Color.red, 40f);
                 Debug.DrawRay(contact.point, lastContact.normalized, Color.blue, 40f);
