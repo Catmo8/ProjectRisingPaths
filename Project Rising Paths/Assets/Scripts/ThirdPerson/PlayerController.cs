@@ -4,40 +4,50 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Character Controller using Input System and Cinemachine
 /// </summary>
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField, Tooltip("Input action Vector2 movement")]
     private InputActionReference movementControl = null;
+
     [SerializeField, Tooltip("Input action for button/float jump")]
     private InputActionReference jumpControl = null;
-    [SerializeField, Tooltip("Speed multiplier")]
-    private InputActionReference runControl = null;
+
     [SerializeField, Tooltip("Input action for button run")]
-    private float playerSpeed = 2.0f;
+    private InputActionReference runControl = null;
+
+    [SerializeField, Tooltip("Speed multiplier")]
+    private float playerSpeed = 5.0f;
+
+    [SerializeField, Tooltip("Run speed multiplier")]
+    private float sprintSpeed = 10.0f;
+
     [SerializeField, Tooltip("How high can the player jump")]
-    private float jumpHeight = 1.0f;
-    [SerializeField, Tooltip("Value of gravity, must be negative (unless you want your player to go upwards)")]
-    private float gravityValue = -9.81f;
+    private float jumpHeight = 2.0f;
+
     [SerializeField, Tooltip("Rotation speed multiplier")]
-    private float rotationSpeed = 4f;
+    private float wallJumpForce = 4f;
+
+    [SerializeField, Tooltip("Camera")]
+    private Transform cameraMainTransform;
+
+    [SerializeField, Tooltip("additionalGravity")]
+    private Vector3 additionalGravity;
+
+    //[SerializeField, Tooltip("isGrounded")]
+    private bool isGrounded;
+    private float DistanceToTheGround;
+
     private Vector3 moveVector;
-    private Vector3 lastMove;
-    private float sprintSpeed = 5.0f;
+    private Vector2 movement;
 
-    private CharacterController controller;
-    private Vector3 playerVelocity;
-
+    private Rigidbody rb;
+    private Vector3 lastContact;
+   
     private bool doubleJump = false;
     private bool isRunning = false;
-    private bool groundedPlayer;
-    private Transform cameraMainTransform;
-    InputAction input = new InputAction();
 
     #region setup
-    
-    
-
     private void OnEnable() {
         if (movementControl != null) movementControl.action.Enable();
         if (jumpControl != null) jumpControl.action.Enable();
@@ -52,73 +62,63 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        controller = gameObject.GetComponent<CharacterController>();
-        // Make sure you have the camera tagged as main
-        cameraMainTransform = Camera.main.transform;
+        rb = gameObject.GetComponent<Rigidbody>();
     }
-
     #endregion setup
     void Update()
     {
-        
-        moveVector = Vector3.zero;
-        groundedPlayer = controller.isGrounded;
-        // Set velocity to 0 is the player is grounded to prevent vertical movement
-        if (groundedPlayer && playerVelocity.y < 0)
+        DistanceToTheGround = GetComponent<Collider>().bounds.extents.y;
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, DistanceToTheGround + 0.2f);
+
+        movement = movementControl.action.ReadValue<Vector2>();
+        moveVector = new Vector3(movement.x, 0f, movement.y);
+        moveVector = cameraMainTransform.forward * moveVector.z + cameraMainTransform.right * moveVector.x;
+        moveVector.y = 0f;
+        if (moveVector != Vector3.zero){
+            transform.forward = moveVector;
+        }
+
+
+        if (jumpControl.action.triggered && isGrounded)
         {
-            playerVelocity.y = 0f;
+            rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.Impulse);
         }
 
-        // Get movement Vector via input system and multiply by camera orientation
-        Vector2 movement = movementControl.action.ReadValue<Vector2>();
-        Vector3 move = new Vector3(movement.x, 0, movement.y);
-        move = cameraMainTransform.forward * move.z + cameraMainTransform.right * move.x;
-        move.y = 0f;
-        controller.Move(move * Time.deltaTime * playerSpeed);
+    }
 
-        //Changes the speed of the character to run
-        if (runControl.action.triggered && groundedPlayer)
+    void FixedUpdate(){
+        /*
+        if (jumpControl.action.triggered && isGrounded)
         {
-            //bool isRunHeld = (input.Player.Run.activeControl != null) ? true : false;
-            playerSpeed = sprintSpeed;
-            controller.Move(move * Time.deltaTime * playerSpeed);
+            rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Acceleration);
         }
-
-        // Changes the height position of the player
-        if (jumpControl.action.triggered && groundedPlayer)
+        */
+        if (!isGrounded)
         {
-            doubleJump = false;
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            rb.AddForce(additionalGravity, ForceMode.Acceleration);
         }
-        else {
-            if (jumpControl.action.triggered  && doubleJump == false){
-                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-                doubleJump = true;
-                moveVector = lastMove;
-            }
-        }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
-        
-
-        // Rotate the player in accordance with their movement
-        if (movement != Vector2.zero) {
-            float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cameraMainTransform.eulerAngles.y;
-            Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-        }
-
+        Vector3 velocity = moveVector * playerSpeed;
+        velocity.y = rb.velocity.y;
+        rb.velocity = velocity;
     }
     
-    private void OnControllerColliderHit (ControllerColliderHit hit){
-        if (!controller.isGrounded && hit.normal.y < 0.1f)
+    private void OnCollisionStay (Collision collision){
+         ContactPoint contact = collision.GetContact(0);
+        if (!isGrounded && contact.normal.y < 0.1f)
         {
             if (jumpControl.action.triggered)
-            Debug.DrawRay(hit.point, hit.normal, Color.red, 1.25f);
-            Vector2 movement = movementControl.action.ReadValue<Vector2>();
-            //playerVelocity.x += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-            //moveVector = hit.normal * playerSpeed;
+            {
+                Debug.DrawRay(contact.point, contact.normal, Color.yellow, 40f);
+                lastContact = Vector3.up + contact.normal;
+                lastContact.x *= wallJumpForce;
+                lastContact.y *= Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+                lastContact.z *= wallJumpForce;
+                rb.AddForce(lastContact, ForceMode.VelocityChange);
+                transform.forward = contact.normal;
+                Debug.DrawRay(contact.point, Vector3.up.normalized, Color.red, 40f);
+                Debug.DrawRay(contact.point, lastContact.normalized, Color.blue, 40f);
+            }
         }
     }
+    
 }
