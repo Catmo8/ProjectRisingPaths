@@ -11,7 +11,7 @@ public class CannonController : MonoBehaviour
     public GameObject explosion;
     public bool stopFiring = false;
     public float firePower;
-    public float powerMult = 500;
+    public float powerMult = 1;
     public float firstShot;
     public float fireRate;
 
@@ -32,7 +32,7 @@ public class CannonController : MonoBehaviour
         shotPos.rotation = transform.rotation;
         GameObject cannonBallCopy = Instantiate(cannonBall, shotPos.position, shotPos.rotation) as GameObject;
         cannonballRB = cannonBallCopy.GetComponent<Rigidbody>();
-        cannonballRB.AddForce(Vector3.forward * firePower);
+        cannonballRB.AddForce(shotPos.forward * firePower);
         //Instantiate(explosion, shotPos.position, shotPos.rotation);
         if(stopFiring){
             CancelInvoke("FireCannon");
