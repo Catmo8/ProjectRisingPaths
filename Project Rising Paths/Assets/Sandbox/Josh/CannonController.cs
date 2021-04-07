@@ -32,7 +32,7 @@ public class CannonController : MonoBehaviour
         shotPos.rotation = transform.rotation;
         GameObject cannonBallCopy = Instantiate(cannonBall, shotPos.position, shotPos.rotation) as GameObject;
         cannonballRB = cannonBallCopy.GetComponent<Rigidbody>();
-        cannonballRB.AddForce(transform.forward * firePower);
+        cannonballRB.AddForce(Vector3.forward * firePower);
         //Instantiate(explosion, shotPos.position, shotPos.rotation);
         if(stopFiring){
             CancelInvoke("FireCannon");
