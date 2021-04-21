@@ -22,31 +22,37 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("Run speed multiplier")]
     private float sprintSpeed = 10.0f;
 
+    [SerializeField, Tooltip("Smooths out animation transitions")]
+    private float animationSmoothing = 0.1f;
+
     [SerializeField, Tooltip("How high can the player jump")]
     private float jumpHeight = 2.0f;
 
     [SerializeField, Tooltip("Rotation speed multiplier")]
-    private float wallJumpForce = 4f;
+    private float wallJumpForce = 10.0f;
 
     [SerializeField, Tooltip("Camera")]
     private Transform cameraMainTransform;
 
-    [SerializeField, Tooltip("additionalGravity")]
+    [SerializeField, Tooltip("Adds additional gravity to player when falling")]
     private Vector3 additionalGravity;
 
-    //[SerializeField, Tooltip("isGrounded")]
-    private bool isGrounded;
-    private float DistanceToTheGround;
 
-    private Vector3 moveVector;
+    [SerializeField, Tooltip("Debugging if grounded or not")]
+    private bool isGrounded;
+    [SerializeField, Tooltip("Checks distance to ground")]
+    private float groundCheckDistance = 0.2f;
+    [SerializeField, Tooltip("Dictates what is the ground layer")]
+    private LayerMask groundMask;
+
+    private Animator animator; 
+
     private Vector2 movement;
+    private Vector3 moveVector;
 
     private Rigidbody rb;
     private Vector3 lastContact;
    
-    private bool doubleJump = false;
-    private bool isRunning = false;
-
     #region setup
     private void OnEnable() {
         if (movementControl != null) movementControl.action.Enable();
@@ -63,12 +69,12 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
     }
     #endregion setup
     void Update()
     {
-        DistanceToTheGround = GetComponent<Collider>().bounds.extents.y;
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, DistanceToTheGround + 0.2f);
+        isGrounded = Physics.CheckSphere(transform.position,groundCheckDistance, groundMask);
 
         movement = movementControl.action.ReadValue<Vector2>();
         moveVector = new Vector3(movement.x, 0f, movement.y);
@@ -78,21 +84,38 @@ public class PlayerController : MonoBehaviour
             transform.forward = moveVector;
         }
 
-
         if (jumpControl.action.triggered && isGrounded)
         {
+            animator.SetTrigger("Jumping");
             rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.Impulse);
         }
 
+        if (isGrounded)
+        {
+            if (moveVector != Vector3.zero && runControl.action.ReadValue<float>() == 0)
+            {
+                animator.SetFloat("Speed", 0.33f, animationSmoothing, Time.deltaTime);
+            }
+            else if (moveVector != Vector3.zero && runControl.action.ReadValue<float>() > 0)
+            {
+                animator.SetFloat("Speed", 1.00f, animationSmoothing, Time.deltaTime);
+            }
+            else if (moveVector == Vector3.zero)
+            {
+                animator.SetFloat("Speed", 0.0f, animationSmoothing, Time.deltaTime);
+            }
+        }
+        if (!isGrounded)
+        {
+            animator.SetBool("Falling", true);
+        }
+        else
+        {
+            animator.SetBool("Falling", false);
+        } 
     }
 
     void FixedUpdate(){
-        /*
-        if (jumpControl.action.triggered && isGrounded)
-        {
-            rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Acceleration);
-        }
-        */
         if (!isGrounded)
         {
             rb.AddForce(additionalGravity, ForceMode.Acceleration);
