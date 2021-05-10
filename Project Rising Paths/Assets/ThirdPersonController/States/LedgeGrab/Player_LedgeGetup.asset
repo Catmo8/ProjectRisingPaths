@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 024804dfadf6737429ec86ec293e53c2, type: 3}
-  m_Name: Player_Jump_Normal_GroundDetector
+  m_Script: {fileID: 11500000, guid: 0f9e1793e83340e49984bc74da8aae5c, type: 3}
+  m_Name: Player_LedgeGetup
   m_EditorClassIdentifier: 
-  checkTime: 0.1
-  distance: 0.4

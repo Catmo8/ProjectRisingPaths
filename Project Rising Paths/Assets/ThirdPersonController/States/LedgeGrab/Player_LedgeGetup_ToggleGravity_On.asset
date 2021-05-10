@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 024804dfadf6737429ec86ec293e53c2, type: 3}
-  m_Name: Player_Jump_Normal_GroundDetector
+  m_Script: {fileID: 11500000, guid: 03a929454df350b40bdd2c3d9c79b0e0, type: 3}
+  m_Name: Player_LedgeGetup_ToggleGravity_On
   m_EditorClassIdentifier: 
-  checkTime: 0.1
-  distance: 0.4
+  on: 1
+  onStart: 0
+  onEnd: 1

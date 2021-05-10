@@ -14,10 +14,16 @@ namespace third_person_controller
         public float animationSmoothing;
         public float blockDistance;
 
+        //public float stepHeight = 0.3f;
+        //public float stepSmooth = 2f;
+
         float smoothTurnVelocity;
 
         public override void OnEnter(CharacterState characterState, Animator animator, AnimatorStateInfo stateInfo)
         {
+            //CharacterControl control = characterState.GetCharacterControl(animator);
+            //control.stepRayUpper.transform.position = new Vector3(control.stepRayUpper.transform.position.x, 
+            //    stepHeight, control.stepRayUpper.transform.position.z);
         }
 
         public override void UpdateAbility(CharacterState characterState, Animator animator, AnimatorStateInfo  stateInfo)
@@ -26,11 +32,18 @@ namespace third_person_controller
 
             if (control.Jump)
             {
-                animator.SetBool(TransitionParameter.Jump.ToString(), true);
+                    animator.SetBool(TransitionParameter.Jump.ToString(), true);
             }
 
-                    animator.SetFloat(TransitionParameter.MoveSpeed.ToString(), Mathf.Max(Mathf.Abs(control.MoveX), Mathf.Abs(control.MoveY)),
-                           animationSmoothing, Time.deltaTime);
+            if (!CheckFront(control))
+            {
+                animator.SetBool(TransitionParameter.WallJump.ToString(), true);
+            }
+            else
+            {
+                animator.SetBool(TransitionParameter.WallJump.ToString(), false);
+            }
+
             if(!control.Move)
             {
                 animator.SetBool(TransitionParameter.Move.ToString(), false);
@@ -41,9 +54,12 @@ namespace third_person_controller
 
             if (control.Move)
             {
+                animator.SetFloat(TransitionParameter.MoveSpeed.ToString(), Mathf.Max(Mathf.Abs(control.MoveX), Mathf.Abs(control.MoveY)),
+                    animationSmoothing, Time.deltaTime);
+                
                 Vector3 moveVector = new Vector3(control.MoveX, 0f, control.MoveY);
                 moveVector = control.cameraMainTransform.forward * moveVector.z + control.cameraMainTransform.right * moveVector.x;
-                moveVector.y = 0f;
+                moveVector.y = -2f;
 
                 if (moveVector != Vector3.zero && turning)
                 {
@@ -52,11 +68,17 @@ namespace third_person_controller
                     control.transform.rotation = Quaternion.Euler(0f, angle, 0f);
                 }
 
+                //stepClimb(control);
+
                 if (!CheckFront(control))
                 {
                     Vector3 velocity = moveVector * speed * speedGraph.Evaluate(stateInfo.normalizedTime);
                     velocity.y = control.rb.velocity.y;
                     control.rb.velocity = velocity;
+                }
+                else
+                {
+                    Debug.Log("in front of wall");
                 }
             }
         }
@@ -79,5 +101,43 @@ namespace third_person_controller
 
             return false;
         }
+        /*
+        void stepClimb(CharacterControl control)
+        {
+            RaycastHit hitLower;
+            if (Physics.Raycast(control.stepRayLower.transform.position, control.transform.TransformDirection(Vector3.forward), out hitLower, 0.1f))
+            {
+                RaycastHit hitUpper;
+                if (!Physics.Raycast(control.stepRayUpper.transform.position, control.transform.TransformDirection(Vector3.forward), out hitUpper, 0.2f))
+                {
+                    control.rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+                }
+            }
+
+            RaycastHit hitLower45;
+            if (Physics.Raycast(control.stepRayLower.transform.position, control.transform.TransformDirection(1.5f, 0, 1), out hitLower45, 0.1f))
+            {
+
+                RaycastHit hitUpper45;
+                if (!Physics.Raycast(control.stepRayUpper.transform.position, control.transform.TransformDirection(1.5f, 0, 1), out hitUpper45, 0.2f))
+                {
+                    control.rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+                }
+            }
+
+            RaycastHit hitLowerMinus45;
+            if (Physics.Raycast(control.stepRayLower.transform.position, control.transform.TransformDirection(-1.5f, 0, 1), out hitLowerMinus45, 0.1f))
+            {
+
+                RaycastHit hitUpperMinus45;
+                if (!Physics.Raycast(control.stepRayUpper.transform.position, control.transform.TransformDirection(-1.5f, 0, 1), out hitUpperMinus45, 0.2f))
+                {
+                    control.rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+                }
+            }
+        }
+        */
+
+
     }
 }

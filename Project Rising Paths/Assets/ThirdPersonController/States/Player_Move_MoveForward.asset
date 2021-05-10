@@ -40,4 +40,4 @@ MonoBehaviour:
   turning: 1
   smoothTurnSpeed: 0.1
   animationSmoothing: 0.15
-  blockDistance: 0.1
+  blockDistance: 0.9
