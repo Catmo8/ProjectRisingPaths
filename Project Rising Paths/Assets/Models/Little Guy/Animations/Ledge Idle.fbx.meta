@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b048eb41607c6e542a9760be4a224772
+guid: d84f691cce4a678408e1bef820779675
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -38,7 +38,7 @@ ModelImporter:
       name: Ledge Idle
       takeName: Armature|ArmatureAction
       internalID: 0
-      firstFrame: 29
+      firstFrame: 30
       lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0

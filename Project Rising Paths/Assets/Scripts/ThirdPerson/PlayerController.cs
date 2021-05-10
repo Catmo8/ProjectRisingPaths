@@ -16,20 +16,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("Input action for button run")]
     private InputActionReference runControl = null;
 
+    [SerializeField, Tooltip("Input action for accessing menu")]
+    private InputActionReference menuControl = null;
+
     [SerializeField, Tooltip("Speed multiplier")]
     private float playerSpeed = 5.0f;
 
     [SerializeField, Tooltip("Run speed multiplier")]
     private float sprintSpeed = 10.0f;
 
+    [SerializeField, Tooltip("Turn speed multiplier")]
+    private float smoothTurnSpeed = 0.1f;
+
     [SerializeField, Tooltip("Smooths out animation transitions")]
     private float animationSmoothing = 0.1f;
 
     [SerializeField, Tooltip("How high can the player jump")]
     private float jumpHeight = 2.0f;
-
-    [SerializeField, Tooltip("Rotation speed multiplier")]
-    private float wallJumpForce = 10.0f;
 
     [SerializeField, Tooltip("Camera")]
     private Transform cameraMainTransform;
@@ -51,25 +54,29 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveVector;
 
     private Rigidbody rb;
-    private Vector3 lastContact;
+
+    float smoothTurnVelocity;
    
     #region setup
     private void OnEnable() {
         if (movementControl != null) movementControl.action.Enable();
         if (jumpControl != null) jumpControl.action.Enable();
         if (runControl != null) runControl.action.Enable();
+        if (menuControl != null) menuControl.action.Enable();
     }
 
     private void OnDisable() {
         if (movementControl != null) movementControl.action.Disable();
         if (jumpControl != null) jumpControl.action.Disable();
         if (runControl != null) runControl.action.Disable();
+        if (menuControl != null) menuControl.action.Disable();
     }
 
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
     #endregion setup
     void Update()
@@ -80,14 +87,17 @@ public class PlayerController : MonoBehaviour
         moveVector = new Vector3(movement.x, 0f, movement.y);
         moveVector = cameraMainTransform.forward * moveVector.z + cameraMainTransform.right * moveVector.x;
         moveVector.y = 0f;
-        if (moveVector != Vector3.zero){
-            transform.forward = moveVector;
+        if (moveVector != Vector3.zero)
+        {
+            float targetAngle = Mathf.Atan2(moveVector.x, moveVector.z) * Mathf.Rad2Deg;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnSpeed);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
         }
 
         if (jumpControl.action.triggered && isGrounded)
         {
             animator.SetTrigger("Jumping");
-            rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.Impulse);
+            rb.velocity = new Vector3(rb.velocity.x, jumpHeight, rb.velocity.z);
         }
 
         if (isGrounded)
@@ -113,12 +123,21 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Falling", false);
         } 
+
+        // Cursor Locking
+        if(menuControl.action.triggered)
+        {
+            if (Cursor.lockState == CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.None;
+            if (Cursor.lockState == CursorLockMode.None)
+                Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     void FixedUpdate(){
         if (!isGrounded)
         {
-            rb.AddForce(additionalGravity, ForceMode.Acceleration);
+            rb.AddForce(additionalGravity);
         }
         Vector3 velocity = moveVector * playerSpeed;
         velocity.y = rb.velocity.y;
@@ -132,14 +151,13 @@ public class PlayerController : MonoBehaviour
             if (jumpControl.action.triggered)
             {
                 Debug.DrawRay(contact.point, contact.normal, Color.yellow, 40f);
-                lastContact = Vector3.up + contact.normal;
-                lastContact.x *= wallJumpForce;
-                lastContact.y *= Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
-                lastContact.z *= wallJumpForce;
-                rb.AddForce(lastContact, ForceMode.VelocityChange);
-                transform.forward = contact.normal;
+                moveVector.x = contact.normal.x;
+                moveVector.z = contact.normal.z;
+                rb.velocity = new Vector3(rb.velocity.x, jumpHeight, rb.velocity.z);
+                float targetAngle = Mathf.Atan2(moveVector.x, moveVector.z) * Mathf.Rad2Deg;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnSpeed);
+                transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
                 Debug.DrawRay(contact.point, Vector3.up.normalized, Color.red, 40f);
-                Debug.DrawRay(contact.point, lastContact.normalized, Color.blue, 40f);
             }
         }
     }
