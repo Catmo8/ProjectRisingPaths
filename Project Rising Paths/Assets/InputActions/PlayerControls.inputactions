@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "4fdb5853-a852-4ee6-8052-5a1af032de51",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -151,8 +159,8 @@
                 },
                 {
                     "name": "",
-                    "id": "8b5e1730-2b0b-4126-af7f-4ab15f4b6569",
-                    "path": "<Gamepad>/buttonWest",
+                    "id": "7b95486c-5779-4e46-8073-b08129de7f01",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
@@ -162,8 +170,30 @@
                 },
                 {
                     "name": "",
-                    "id": "7b95486c-5779-4e46-8073-b08129de7f01",
-                    "path": "<Keyboard>/leftShift",
+                    "id": "9df26ab0-9e61-44e5-a6d4-1d3d7226aafd",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0fb31382-4065-4b34-bc31-33ba16992bc5",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8b5e1730-2b0b-4126-af7f-4ab15f4b6569",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
