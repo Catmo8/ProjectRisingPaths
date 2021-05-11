@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4268f267abac2e47bf28eeed7d6ec3f, type: 3}
-  m_Name: Player_Jump_Normal_MoveForward
+  m_Name: Player_WallJump_MoveForward
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 3
   speedGraph:
     serializedVersion: 2
     m_Curve:
@@ -37,7 +37,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  turning: 0
-  smoothTurnSpeed: 0.1
-  animationSmoothing: 0
-  blockDistance: 0.1
+  turning: 1
+  smoothTurnSpeed: 0.01
+  animationSmoothing: 0.15
+  blockDistance: 0.7

@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4268f267abac2e47bf28eeed7d6ec3f, type: 3}
-  m_Name: Player_Fall_MoveForward
+  m_Name: Player_Jump_Normal_MoveForward
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 10
   speedGraph:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -38,6 +38,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   turning: 1
-  smoothTurnSpeed: 0
-  animationSmoothing: 0
-  blockDistance: 0.1
+  smoothTurnSpeed: 0.01
+  animationSmoothing: 0.15
+  blockDistance: 0.3

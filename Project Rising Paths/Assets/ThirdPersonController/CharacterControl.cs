@@ -12,6 +12,8 @@ namespace third_person_controller
         ForceTransition,
         Grounded,
         TransitionIndex,
+        LedgeGrabbed,
+        WallJump,
     }
     public class CharacterControl : MonoBehaviour
     {
@@ -22,12 +24,23 @@ namespace third_person_controller
         public float MoveY;
         public bool Jump;
 
+        //Ledge stuff
+        public bool LedgeGrabbed;
+        public Vector3 lastLedgeContact;
+
+        //public bool WallJump;
+        public Vector3 lastWallJumpContact;
+
         public Transform cameraMainTransform;
         public Rigidbody rb;
 
         public GameObject colliderEdgePrefab;
         public List<GameObject> BottomSpheres = new List<GameObject>();
         public List<GameObject> FrontSpheres = new List<GameObject>();
+
+        //Stair stuff
+        //public GameObject stepRayUpper;
+        //public GameObject stepRayLower;
 
         public float gravityMultiplier;
         public float pullMultiplier;
@@ -58,6 +71,11 @@ namespace third_person_controller
 
             bottomFront.transform.SetParent(transform, true);
             bottomBack.transform.SetParent(transform, true);
+            topFront.transform.SetParent(transform, true);
+
+            bottomFront.layer = 7;
+            bottomBack.layer = 7;
+            topFront.layer = 7;
 
             BottomSpheres.Add(bottomFront);
             BottomSpheres.Add(bottomBack);
@@ -94,6 +112,7 @@ namespace third_person_controller
 
                 GameObject newObj = CreateEdgeSphere(pos);
                 newObj.transform.parent = transform;
+                newObj.layer = 7;
                 spheresLists.Add(newObj);
             }
         }

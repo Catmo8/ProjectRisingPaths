@@ -10,6 +10,7 @@ namespace third_person_controller
         [Range(0.01f, 1f)]
         public float checkTime;
         public float distance;
+        //public LayerMask groundMask;
 
         public override void OnEnter(CharacterState characterState, Animator animator, AnimatorStateInfo stateInfo)
         {
@@ -44,8 +45,9 @@ namespace third_person_controller
 
             if (control.rb.velocity.y < 0f)
             {
-                foreach (GameObject o in control.BottomSpheres)
+                for (int i = 3; i < 5; i++)
                 {
+                    GameObject o = control.BottomSpheres[i];
                     Debug.DrawRay(o.transform.position, -Vector3.up * 0.7f, Color.yellow);
                     RaycastHit hit;
                     if (Physics.Raycast(o.transform.position, -Vector3.up, out hit, distance))
@@ -53,6 +55,12 @@ namespace third_person_controller
                         return true;
                     }
                 }
+                /*
+                if (Physics.CheckSphere(control.transform.position, 0.2f, groundMask))
+                {
+                    return true;
+                }
+                */
             }
 
             return false;
