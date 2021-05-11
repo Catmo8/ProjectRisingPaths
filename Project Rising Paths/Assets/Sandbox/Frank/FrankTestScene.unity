@@ -10970,32 +10970,28 @@ PrefabInstance:
       value: Little Guy
       objectReference: {fileID: 0}
     - target: {fileID: 7500855677068067497, guid: 398a9fed3f046624e9cbe662c4bb4edf, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.12624793
-      objectReference: {fileID: 0}
-    - target: {fileID: 7500855677068067497, guid: 398a9fed3f046624e9cbe662c4bb4edf, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.01894577
+      propertyPath: m_LocalRotation.y
+      value: 0.00022356467
       objectReference: {fileID: 0}
     - target: {fileID: 7500855677068067497, guid: 398a9fed3f046624e9cbe662c4bb4edf, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.14719193
+      value: -0.000033549903
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500855677619733893, guid: 398a9fed3f046624e9cbe662c4bb4edf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.00022595967
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500855677619733893, guid: 398a9fed3f046624e9cbe662c4bb4edf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.000007225029
       objectReference: {fileID: 0}
     - target: {fileID: 7500855677841636708, guid: 398a9fed3f046624e9cbe662c4bb4edf, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.009814872
+      propertyPath: m_LocalRotation.y
+      value: 0.00022541563
       objectReference: {fileID: 0}
     - target: {fileID: 7500855677841636708, guid: 398a9fed3f046624e9cbe662c4bb4edf, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.07625289
-      objectReference: {fileID: 0}
-    - target: {fileID: 7500855678059388428, guid: 398a9fed3f046624e9cbe662c4bb4edf, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.011429347
-      objectReference: {fileID: 0}
-    - target: {fileID: 7500855678059388428, guid: 398a9fed3f046624e9cbe662c4bb4edf, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.088795915
+      value: -0.000017381852
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 398a9fed3f046624e9cbe662c4bb4edf, type: 3}

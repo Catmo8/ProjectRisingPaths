@@ -14,15 +14,13 @@ namespace third_person_controller
         {
             CharacterControl control = characterState.GetCharacterControl(animator);
             animator.SetBool(TransitionParameter.Grounded.ToString(), false);
-            animator.SetBool(TransitionParameter.Jump.ToString(), true);
 
-            control.transform.position = control.lastWallJumpContact;
             Vector3 finalJump = Vector3.up + control.lastWallJumpContact;
+            control.transform.forward = control.lastWallJumpContact;
             finalJump.x *= wallJumpForce;
             finalJump.y *= jumpForce;
             finalJump.z *= wallJumpForce;
             control.rb.AddForce(finalJump);
-            animator.SetBool(TransitionParameter.Jump.ToString(), true);
         }
 
         public override void UpdateAbility(CharacterState characterState, Animator animator, AnimatorStateInfo stateInfo)

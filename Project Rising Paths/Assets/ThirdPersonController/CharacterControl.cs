@@ -28,7 +28,7 @@ namespace third_person_controller
         public bool LedgeGrabbed;
         public Vector3 lastLedgeContact;
 
-        public bool WallJump;
+        //public bool WallJump;
         public Vector3 lastWallJumpContact;
 
         public Transform cameraMainTransform;
@@ -71,6 +71,11 @@ namespace third_person_controller
 
             bottomFront.transform.SetParent(transform, true);
             bottomBack.transform.SetParent(transform, true);
+            topFront.transform.SetParent(transform, true);
+
+            bottomFront.layer = 7;
+            bottomBack.layer = 7;
+            topFront.layer = 7;
 
             BottomSpheres.Add(bottomFront);
             BottomSpheres.Add(bottomBack);
@@ -107,6 +112,7 @@ namespace third_person_controller
 
                 GameObject newObj = CreateEdgeSphere(pos);
                 newObj.transform.parent = transform;
+                newObj.layer = 7;
                 spheresLists.Add(newObj);
             }
         }

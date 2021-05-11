@@ -21,7 +21,11 @@ namespace third_person_controller
             collidingObject = collision.gameObject;
             if (((1 << collidingObject.layer) & canWallJump) != 0)
             {
-                control.lastWallJumpContact = collision.GetContact(0).normal;
+                if (collision.GetContact(0).normal.y < 0.1f)
+                {
+                    control.lastWallJumpContact = collision.GetContact(0).normal;
+                    Debug.DrawRay(collision.GetContact(0).point,control.lastWallJumpContact,  Color.green, 30f);
+                }
             }
         }
     }

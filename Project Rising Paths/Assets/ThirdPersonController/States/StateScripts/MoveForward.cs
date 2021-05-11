@@ -35,13 +35,13 @@ namespace third_person_controller
                     animator.SetBool(TransitionParameter.Jump.ToString(), true);
             }
 
-            if (!CheckFront(control))
+            if (!CheckUpperFront(control))
             {
-                animator.SetBool(TransitionParameter.WallJump.ToString(), true);
+                animator.SetBool(TransitionParameter.WallJump.ToString(), false);
             }
             else
             {
-                animator.SetBool(TransitionParameter.WallJump.ToString(), false);
+                animator.SetBool(TransitionParameter.WallJump.ToString(), true);
             }
 
             if(!control.Move)
@@ -61,10 +61,10 @@ namespace third_person_controller
                 moveVector = control.cameraMainTransform.forward * moveVector.z + control.cameraMainTransform.right * moveVector.x;
                 moveVector.y = -2f;
 
-                if (moveVector != Vector3.zero && turning)
-                {
                     float targetAngle = Mathf.Atan2(moveVector.x, moveVector.z) * Mathf.Rad2Deg;
                     float angle = Mathf.SmoothDampAngle(control.transform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnSpeed);
+                if (moveVector != Vector3.zero && turning)
+                {
                     control.transform.rotation = Quaternion.Euler(0f, angle, 0f);
                 }
 
@@ -92,6 +92,21 @@ namespace third_person_controller
             foreach (GameObject o in control.FrontSpheres)
             {
                 Debug.DrawRay(o.transform.position, control.transform.forward * 0.3f, Color.yellow);
+                RaycastHit hit;
+                if (Physics.Raycast(o.transform.position, control.transform.forward, out hit, blockDistance))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        
+        bool CheckUpperFront(CharacterControl control)
+        {
+            for (int i = 5; i < 11; i++)
+            {
+                GameObject o = control.FrontSpheres[i];
                 RaycastHit hit;
                 if (Physics.Raycast(o.transform.position, control.transform.forward, out hit, blockDistance))
                 {
