@@ -28,8 +28,13 @@ namespace third_person_controller
         public bool LedgeGrabbed;
         public Vector3 lastLedgeContact;
 
-        //public bool WallJump;
+        //WallJump stuff
+        public bool WallJump;
         public Vector3 lastWallJumpContact;
+
+        public float MoveSpeed;
+        public bool Grounded;
+        public bool ForceTransition;
 
         public Transform cameraMainTransform;
         public Rigidbody rb;

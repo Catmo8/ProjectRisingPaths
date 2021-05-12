@@ -22,12 +22,14 @@ namespace third_person_controller
 
             if (stateInfo.normalizedTime >= checkTime)
             {
-                if(IsGrounded(control))
+                if(control.Grounded)
                 {
+                    //control.Grounded = true;
                     animator.SetBool(TransitionParameter.Grounded.ToString(), true);
                 }
                 else
                 {
+                    //control.Grounded = false;
                     animator.SetBool(TransitionParameter.Grounded.ToString(), false);
                 }
             }
@@ -50,7 +52,8 @@ namespace third_person_controller
                     GameObject o = control.BottomSpheres[i];
                     Debug.DrawRay(o.transform.position, -Vector3.up * 0.7f, Color.yellow);
                     RaycastHit hit;
-                    if (Physics.Raycast(o.transform.position, -Vector3.up, out hit, distance))
+                    //if (Physics.Raycast(o.transform.position, -Vector3.up, out hit, distance))
+                    if (Physics.CheckSphere(o.transform.position, distance))
                     {
                         return true;
                     }
