@@ -19,7 +19,7 @@ public class CannonBall : MonoBehaviour
     void Update()
     {
     
-        /*
+        
         if (lifeTime > 0) {
             lifeTime -= Time.deltaTime;
             if (lifeTime <= 0){
@@ -27,7 +27,7 @@ public class CannonBall : MonoBehaviour
             }
         }
         
-        */
+        
     }
 
     void Destruction() {
