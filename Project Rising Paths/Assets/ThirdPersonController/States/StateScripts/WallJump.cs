@@ -13,7 +13,7 @@ namespace third_person_controller
         public override void OnEnter(CharacterState characterState, Animator animator, AnimatorStateInfo stateInfo)
         {
             CharacterControl control = characterState.GetCharacterControl(animator);
-            animator.SetBool(TransitionParameter.Grounded.ToString(), false);
+            //animator.SetBool(TransitionParameter.Grounded.ToString(), false);
 
             Vector3 finalJump = Vector3.up + control.lastWallJumpContact;
             control.transform.forward = control.lastWallJumpContact;

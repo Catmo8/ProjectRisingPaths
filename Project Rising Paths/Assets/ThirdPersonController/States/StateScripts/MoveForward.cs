@@ -14,16 +14,10 @@ namespace third_person_controller
         public float animationSmoothing;
         public float blockDistance;
 
-        //public float stepHeight = 0.3f;
-        //public float stepSmooth = 2f;
-
         float smoothTurnVelocity;
 
         public override void OnEnter(CharacterState characterState, Animator animator, AnimatorStateInfo stateInfo)
         {
-            //CharacterControl control = characterState.GetCharacterControl(animator);
-            //control.stepRayUpper.transform.position = new Vector3(control.stepRayUpper.transform.position.x, 
-            //    stepHeight, control.stepRayUpper.transform.position.z);
         }
 
         public override void UpdateAbility(CharacterState characterState, Animator animator, AnimatorStateInfo  stateInfo)
@@ -37,16 +31,20 @@ namespace third_person_controller
 
             if (!CheckUpperFront(control))
             {
+                control.WallJump = false;
                 animator.SetBool(TransitionParameter.WallJump.ToString(), false);
             }
             else
             {
+                control.WallJump = true;
                 animator.SetBool(TransitionParameter.WallJump.ToString(), true);
             }
 
             if(!control.Move)
             {
                 animator.SetBool(TransitionParameter.Move.ToString(), false);
+
+                control.MoveSpeed = 0f;
                 animator.SetFloat(TransitionParameter.MoveSpeed.ToString(), 0f);
                 return;
             }
@@ -54,6 +52,7 @@ namespace third_person_controller
 
             if (control.Move)
             {
+                control.MoveSpeed = Mathf.Max(Mathf.Abs(control.MoveX), Mathf.Abs(control.MoveY));
                 animator.SetFloat(TransitionParameter.MoveSpeed.ToString(), Mathf.Max(Mathf.Abs(control.MoveX), Mathf.Abs(control.MoveY)),
                     animationSmoothing, Time.deltaTime);
                 
@@ -68,7 +67,6 @@ namespace third_person_controller
                     control.transform.rotation = Quaternion.Euler(0f, angle, 0f);
                 }
 
-                //stepClimb(control);
 
                 if (!CheckFront(control))
                 {

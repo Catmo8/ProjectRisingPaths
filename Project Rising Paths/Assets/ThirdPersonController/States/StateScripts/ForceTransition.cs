@@ -16,13 +16,17 @@ namespace third_person_controller
 
         public override void UpdateAbility(CharacterState characterState, Animator animator, AnimatorStateInfo stateInfo)
         {
+            CharacterControl control = characterState.GetCharacterControl(animator);
             if (stateInfo.normalizedTime >= transitionTiming)
             {
+                control.ForceTransition = true;
                 animator.SetBool(TransitionParameter.ForceTransition.ToString(), true);
             }
         }
         public override void OnExit(CharacterState characterState, Animator animator, AnimatorStateInfo stateInfo)
         {
+            CharacterControl control = characterState.GetCharacterControl(animator);
+            control.ForceTransition = false;
             animator.SetBool(TransitionParameter.ForceTransition.ToString(), false);
         }
     }

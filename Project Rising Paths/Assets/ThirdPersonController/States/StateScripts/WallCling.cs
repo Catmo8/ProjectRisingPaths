@@ -9,6 +9,10 @@ namespace third_person_controller
     {
         public override void OnEnter(CharacterState characterState, Animator animator, AnimatorStateInfo stateInfo)
         {
+            CharacterControl control = characterState.GetCharacterControl(animator);
+
+            control.WallJump = false;
+
             animator.SetBool(TransitionParameter.Jump.ToString(), false);
             animator.SetBool(TransitionParameter.LedgeGrabbed.ToString(), false);
             animator.SetBool(TransitionParameter.WallJump.ToString(), false);
