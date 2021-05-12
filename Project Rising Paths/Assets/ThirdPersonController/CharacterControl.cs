@@ -23,6 +23,7 @@ namespace third_person_controller
         public float MoveX;
         public float MoveY;
         public bool Jump;
+        public bool Menu;
 
         //Ledge stuff
         public bool LedgeGrabbed;
@@ -54,6 +55,18 @@ namespace third_person_controller
         {
             rb = GetComponent<Rigidbody>();
             Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        private void Update()
+        {
+            if (Menu)
+            {
+                if (Cursor.lockState == CursorLockMode.Locked)
+                    Cursor.lockState = CursorLockMode.None;
+                else if (Cursor.lockState == CursorLockMode.None)
+                    Cursor.lockState = CursorLockMode.Locked;
+            }
+
         }
 
         private void Awake()

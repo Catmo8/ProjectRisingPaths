@@ -56,6 +56,15 @@ namespace third_person_controller
             {
                 VirtualInputManger.Instance.Jump = false;
             }
+
+            if(menuControl.action.triggered)
+            {
+                VirtualInputManger.Instance.Menu = true;
+            }
+            else
+            {
+                VirtualInputManger.Instance.Menu = false;
+            }
         }
     }
 }

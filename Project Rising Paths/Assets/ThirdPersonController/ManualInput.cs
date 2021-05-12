@@ -19,6 +19,7 @@ namespace third_person_controller
             characterControl.MoveX = VirtualInputManger.Instance.MoveX;
             characterControl.MoveY = VirtualInputManger.Instance.MoveY;
             characterControl.Jump = VirtualInputManger.Instance.Jump;
+            characterControl.Menu = VirtualInputManger.Instance.Menu;
         }
     }
 }

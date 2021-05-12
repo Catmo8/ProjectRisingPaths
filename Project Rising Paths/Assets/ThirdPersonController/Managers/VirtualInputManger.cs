@@ -10,5 +10,6 @@ namespace third_person_controller
         public float MoveX;
         public float MoveY;
         public bool Jump;
+        public bool Menu;
     }
 }
