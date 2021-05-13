@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Bullet
+  - Cannon
+  - Death
   layers:
   - Default
   - TransparentFX
@@ -11,12 +14,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - XR Player
+  - Player
+  - Grab
+  - Node
+  - Grab No Ray
+  - Environment
   - 
   - 
   - 
