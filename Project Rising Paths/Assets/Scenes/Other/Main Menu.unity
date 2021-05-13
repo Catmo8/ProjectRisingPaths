@@ -430,18 +430,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2049936590}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 485302775}
         m_TargetAssemblyTypeName: ButtonFunctions, Assembly-CSharp
         m_MethodName: SetNetworkLittleGuy
@@ -575,7 +563,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 606203895}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
         m_MethodName: InitializeRoom
         m_Mode: 3
@@ -1202,7 +1190,7 @@ RectTransform:
   - {fileID: 603911148}
   - {fileID: 2049936591}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1462,17 +1450,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 603911147}
   m_CullTransparentMesh: 1
---- !u!114 &606203895 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-  m_PrefabInstance: {fileID: 965645391}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f75022c02ab7b9e45bfa090c1f2ac81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &634859429
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,18 +1557,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 606203895}
-        m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
-        m_MethodName: ConnectToServer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &634859432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1643,7 +1608,7 @@ GameObject:
   - component: {fileID: 661526118}
   - component: {fileID: 661526117}
   m_Layer: 5
-  m_Name: Room 3
+  m_Name: Large Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1712,19 +1677,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 661526118}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 606203895}
-        m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
-        m_MethodName: InitializeRoom
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &661526118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1870,7 +1823,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 606203895}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
         m_MethodName: DisconnectFromServer
         m_Mode: 1
@@ -2031,18 +1984,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 606203895}
-        m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
-        m_MethodName: DisconnectFromServer
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2298,103 +2239,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 962962833}
   m_CullTransparentMesh: 1
---- !u!1001 &965645391
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5991688591477655152, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_Name
-      value: Network Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: defaultRooms.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: defaultRooms.Array.data[0].name
-      value: Room 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: defaultRooms.Array.data[1].name
-      value: Room 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: defaultRooms.Array.data[2].name
-      value: Large Room
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: defaultRooms.Array.data[0].maxPlayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: defaultRooms.Array.data[1].maxPlayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: defaultRooms.Array.data[2].maxPlayer
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: defaultRooms.Array.data[0].sceneIndex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: defaultRooms.Array.data[1].sceneIndex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655153, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: defaultRooms.Array.data[2].sceneIndex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991688591477655154, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a65835fda9e86c146b66234aa8fb01fa, type: 3}
 --- !u!1 &993350248
 GameObject:
   m_ObjectHideFlags: 0
@@ -3401,18 +3245,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2049936590}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 485302775}
         m_TargetAssemblyTypeName: ButtonFunctions, Assembly-CSharp
         m_MethodName: SetNetworkCreator
@@ -3480,7 +3312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6408262330253008727, guid: d62739c99720bae46b2f28073448c4f5, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6408262330253008727, guid: d62739c99720bae46b2f28073448c4f5, type: 3}
       propertyPath: m_LocalScale.x
@@ -4691,14 +4523,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 606203895}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
         m_MethodName: InitializeRoom
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4882,7 +4714,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1960648959
 GameObject:
@@ -4975,7 +4807,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!20 &1961196269 stripped
 Camera:

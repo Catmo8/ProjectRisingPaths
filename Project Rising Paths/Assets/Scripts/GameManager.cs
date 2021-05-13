@@ -8,8 +8,7 @@ using Photon.Pun;
 public class GameManager : MonoBehaviour
 {
     [Header("Character Loader")]
-    public GameObject networkCreator;
-    public GameObject networkLittleGuy;
+    public GameObject networkManager;
     public GameObject XRPlayer;
     public GameObject littleGuy;
 
@@ -19,7 +18,7 @@ public class GameManager : MonoBehaviour
     public InputActionReference xrMenu;
 
     public static bool gameWon = false;
-    bool victoryMusicPlayed = false; 
+    public bool victoryMusicPlayed = false; 
 
     [Header("Victory")]
     public AudioSource audioSource;
@@ -62,8 +61,10 @@ public class GameManager : MonoBehaviour
             if(ModeSelect.networkCreator || ModeSelect.networkLittleGuy)
             {
                 PhotonNetwork.Disconnect();
+                Cursor.lockState = CursorLockMode.None;
             }
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
         }
 
         ControlMenu();
@@ -131,24 +132,30 @@ public class GameManager : MonoBehaviour
     {
         if (ModeSelect.localPlay)
         {
-            networkCreator.SetActive(false);
-            networkLittleGuy.SetActive(false);
+            //networkCreator.SetActive(false);
+            //networkLittleGuy.SetActive(false);
+            networkManager.SetActive(false);
             XRPlayer.SetActive(true);
             littleGuy.SetActive(true);
         }
         else if (ModeSelect.networkCreator)
         {
-            networkCreator.SetActive(true);
-            networkLittleGuy.SetActive(true);
+            //networkCreator.SetActive(true);
+            //networkLittleGuy.SetActive(true);
+            networkManager.SetActive(true);
             XRPlayer.SetActive(true);
-            littleGuy.SetActive(false);
+            littleGuy.SetActive(true);
+            //XRPlayer.GetComponentInChildren<Camera>().
+            XRPlayer.GetComponentInChildren<Camera>().depth = 2;
         }
         else if (ModeSelect.networkLittleGuy)
         {
-            networkCreator.SetActive(true);
-            networkLittleGuy.SetActive(true);
-            XRPlayer.SetActive(false);
+            //networkCreator.SetActive(true);
+            //networkLittleGuy.SetActive(true);
+            networkManager.SetActive(true);
+            XRPlayer.SetActive(true);
             littleGuy.SetActive(true);
+            XRPlayer.GetComponentInChildren<Camera>().depth = 0;
         }
     }
 }
